@@ -25,3 +25,9 @@ struct DocumentView: View {
         }
     }
 }
+
+struct DocumentView_Previews: PreviewProvider {
+    static var previews: some View {
+        DocumentView(document: UIDocument(fileURL: URL(string: "file:///Users/leo/Public")!)) { }
+    }
+}

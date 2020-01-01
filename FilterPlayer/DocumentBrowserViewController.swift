@@ -44,6 +44,7 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
     }
     
     func documentBrowser(_ controller: UIDocumentBrowserViewController, didPickDocumentsAt documentURLs: [URL]) {
+        print("DOC did pick \(documentURLs)")
         guard let sourceURL = documentURLs.first else { return }
         
         // Present the Document View Controller for the first document that was picked.
@@ -88,3 +89,24 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
     }
 }
 
+struct DocumentBrowserViewControllerWrapper: UIViewControllerRepresentable {
+
+    typealias UIViewControllerType = DocumentBrowserViewController
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<DocumentBrowserViewControllerWrapper>) -> DocumentBrowserViewControllerWrapper.UIViewControllerType {
+        return DocumentBrowserViewController()
+    }
+
+    func updateUIViewController(
+        _ uiViewController: DocumentBrowserViewControllerWrapper.UIViewControllerType,
+        context: UIViewControllerRepresentableContext<DocumentBrowserViewControllerWrapper>
+    ) {
+        //
+    }
+}
+
+struct DocumentViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        DocumentBrowserViewControllerWrapper()
+    }
+}
