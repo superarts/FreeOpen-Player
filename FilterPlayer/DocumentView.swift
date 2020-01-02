@@ -20,7 +20,6 @@ struct DocumentView: View {
 
                 Text(document.fileURL.lastPathComponent)
             }
-
             Button("Done", action: dismiss)
         }
     }
