@@ -14,6 +14,7 @@ struct DocumentView: View {
 
     var body: some View {
         VStack {
+            Text("This file is not currently supported.")
             HStack {
                 Text("File Name")
                     .foregroundColor(.secondary)

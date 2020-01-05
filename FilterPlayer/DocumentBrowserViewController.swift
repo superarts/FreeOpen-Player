@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftUI
+import AVFoundation
 
 class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocumentBrowserViewControllerDelegate {
     
@@ -69,7 +70,8 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
         // Access the document
         document.open(completionHandler: { success in
             if success {
-                if true {
+                let type = AVFileType(document.fileType ?? "")
+                if [.mp4, .mov, .m4v].contains(type) {
                     let viewModel = VideoPlayerViewModel(document: document) {
                         self.closeDocument(document)
                     }

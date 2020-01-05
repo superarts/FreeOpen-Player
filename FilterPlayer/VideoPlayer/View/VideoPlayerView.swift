@@ -24,7 +24,7 @@ struct VideoPlayerView: View {
 
     var body: some View {
         VStack {
-            Text("Playing")
+            Text("Player")
             representer
             Button(self.player.status, action: toggleAction)
             Button("Done", action: dismissAction)
