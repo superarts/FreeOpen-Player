@@ -70,10 +70,10 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
         document.open(completionHandler: { success in
             if success {
                 if true {
-                    let view = VideoPlayerView(document: document) {
+                    let viewModel = VideoPlayerViewModel(document: document) {
                         self.closeDocument(document)
                     }
-                    let controller = UIHostingController(rootView: view)
+                    let controller = UIHostingController(rootView: viewModel.view)
                     self.present(controller, animated: true, completion: nil)
                 } else {
                     // Display the content of the document:

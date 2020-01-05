@@ -9,28 +9,29 @@
 import AVFoundation
 
 class PlayerView: UIView {
-    var url: URL
+    let playerLayer = AVPlayerLayer()
 
-    private let playerLayer = AVPlayerLayer()
+//    private let url: URL
 
     init(url: URL) {
-        self.url = url
+//        self.url = url
         super.init(frame: .zero)
-        setupPlayer()
+        layer.addSublayer(playerLayer)
+//        setupPlayer()
     }
 
 //    override init(frame: CGRect) {
 //        super.init(frame: frame)
 //    }
 
-    private func setupPlayer() {
-        // let url = URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!
-        let player = AVPlayer(url: url)
-        player.play()
-
-        playerLayer.player = player
-        layer.addSublayer(playerLayer)
-    }
+//    private func setupPlayer() {
+//        // let url = URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!
+//        let player = AVPlayer(url: url)
+//        player.play()
+//
+//        playerLayer.player = player
+//        layer.addSublayer(playerLayer)
+//    }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -46,15 +47,48 @@ class PlayerView: UIView {
 
 import SwiftUI
 
+struct VideoPlayerViewModel {
+    let view: VideoPlayerView
+
+    private let document: UIDocument
+    private let dismiss: () -> Void
+    private let player: AVPlayer
+//    private let playerLayer: AVPlayerLayer
+
+    init(document: UIDocument, dismiss: @escaping () -> Void) {
+        self.document = document
+        self.dismiss = dismiss
+        view = VideoPlayerView(document: document, dismiss: dismiss)
+        player = AVPlayer(url: document.fileURL)
+
+        setupPlayer()
+    }
+
+    private func setupPlayer() {
+        view.representer.playerView.playerLayer.player = player
+        player.play()
+    }
+}
+
 struct VideoPlayerView: View {
-    // Init from default constructor
-    var document: UIDocument
-    var dismiss: () -> Void
+    let representer: VideoPlayerRepresenter
+
+    private let document: UIDocument
+    private let dismiss: () -> Void
+
+    init(document: UIDocument, dismiss: @escaping () -> Void) {
+        self.document = document
+        self.dismiss = dismiss
+        representer = VideoPlayerRepresenter(url: document.fileURL)
+    }
 
     var body: some View {
         VStack {
             Text("Playing")
-            VideoPlayerRepresenter(url: document.fileURL)
+            representer
+            Button("Play") {
+                print("play")
+            }
             Button("Done", action: dismiss)
         }
     }
@@ -64,13 +98,20 @@ struct VideoPlayerView: View {
 
 /// Represent PlayerView
 struct VideoPlayerRepresenter: UIViewRepresentable {
-    var url: URL
+    let playerView: PlayerView
+
+    private let url: URL
+
+    init(url: URL) {
+        self.url = url
+        playerView = PlayerView(url: url)
+    }
 
     func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<VideoPlayerRepresenter>) {
     }
 
     func makeUIView(context: Context) -> UIView {
-        return PlayerView(url: url)
+        return playerView
     }
 }
 
