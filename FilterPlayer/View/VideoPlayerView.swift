@@ -9,13 +9,15 @@
 import AVFoundation
 
 class PlayerView: UIView {
-    let playerLayer = AVPlayerLayer()
+
+    private let playerLayer = AVPlayerLayer()
 
 //    private let url: URL
 
-    init(url: URL) {
+    init(player: AVPlayer) {
 //        self.url = url
         super.init(frame: .zero)
+        playerLayer.player = player
         layer.addSublayer(playerLayer)
 //        setupPlayer()
     }
@@ -50,22 +52,23 @@ import SwiftUI
 struct VideoPlayerViewModel {
     let view: VideoPlayerView
 
-    private let document: UIDocument
-    private let dismiss: () -> Void
+//    private let document: UIDocument
+//    private let dismiss: () -> Void
     private let player: AVPlayer
 //    private let playerLayer: AVPlayerLayer
 
     init(document: UIDocument, dismiss: @escaping () -> Void) {
-        self.document = document
-        self.dismiss = dismiss
-        view = VideoPlayerView(document: document, dismiss: dismiss)
+//        self.document = document
+//        self.dismiss = dismiss
+
         player = AVPlayer(url: document.fileURL)
+        view = VideoPlayerView(player: player, dismiss: dismiss)
 
         setupPlayer()
     }
 
     private func setupPlayer() {
-        view.representer.playerView.playerLayer.player = player
+        //view.representer.playerView.playerLayer.player = player
         player.play()
     }
 }
@@ -73,13 +76,13 @@ struct VideoPlayerViewModel {
 struct VideoPlayerView: View {
     let representer: VideoPlayerRepresenter
 
-    private let document: UIDocument
+//    private let document: UIDocument
     private let dismiss: () -> Void
 
-    init(document: UIDocument, dismiss: @escaping () -> Void) {
-        self.document = document
+    init(player: AVPlayer, dismiss: @escaping () -> Void) {
+//        self.document = document
         self.dismiss = dismiss
-        representer = VideoPlayerRepresenter(url: document.fileURL)
+        representer = VideoPlayerRepresenter(player: player)
     }
 
     var body: some View {
@@ -100,11 +103,11 @@ struct VideoPlayerView: View {
 struct VideoPlayerRepresenter: UIViewRepresentable {
     let playerView: PlayerView
 
-    private let url: URL
+//    private let url: URL
 
-    init(url: URL) {
-        self.url = url
-        playerView = PlayerView(url: url)
+    init(player: AVPlayer) {
+//        self.url = url
+        playerView = PlayerView(player: player)
     }
 
     func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<VideoPlayerRepresenter>) {
@@ -118,7 +121,7 @@ struct VideoPlayerRepresenter: UIViewRepresentable {
 #if DEBUG
 struct VideoPlayerView_Previews: PreviewProvider {
     static var previews: some View {
-        VideoPlayerView(document: UIDocument(fileURL: URL(string: "file:///Users/leo/Public")!)) { }
+        VideoPlayerView(player: AVPlayer(url: URL(string: "file:///Users/leo/Public")!)) { }
     }
 }
 #endif
