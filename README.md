@@ -7,7 +7,7 @@ This project is to explore `SwiftUI`.
 ## Contents
 
 - [Prelude](#prelude)
-- [`v0.1`: A Basic Video Player](#v01-a-basic-video-player)
+- [`v0.1`: Single View Video Player](#v01-single-view-video-player)
   - [Working with `UIKit`](#working-with-uikit)
   - [Preview in `SwiftUI`](#preview-in-swiftui)
   - [View Model](#view-model)
@@ -24,7 +24,7 @@ To start, I'm trying to build a video player with real time filter, which will b
 
 I'm not going to add links to files for now; to look up code, please clone repo, open project in Xcode, and search for keywords `command + shift + F`.
 
-## `v0.1`: A Basic Video Player
+## `v0.1`: Single View Video Player
 
 I started this project using the "Document Based App" template. By default, it doesn't have scene delegate, and `SwiftUI` preview is not enabled, too.
 
