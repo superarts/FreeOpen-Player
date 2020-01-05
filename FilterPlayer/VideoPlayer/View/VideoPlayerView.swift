@@ -11,6 +11,7 @@ import AVFoundation
 
 /// `SwiftUI` Views are passive. Their behaviors are controlled by ViewModels.
 struct VideoPlayerView: View {
+
     @EnvironmentObject private var player: ObservableVideoPlayer
     private let representer: VideoPlayerRepresenter
     private let dismissAction: () -> Void

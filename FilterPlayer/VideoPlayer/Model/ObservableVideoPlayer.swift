@@ -12,6 +12,7 @@ import AVFoundation
 /// "Observable" models are reactive.
 /// `ObservableVideoPlayer.player` depends on `AVFoundation`.
 final class ObservableVideoPlayer: ObservableObject {
+
     // Exposing `player` to pass it to `LegacyPlayerView`
     let player: AVPlayer
 

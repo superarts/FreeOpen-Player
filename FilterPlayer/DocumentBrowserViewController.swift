@@ -75,7 +75,7 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
                     let viewModel = VideoPlayerViewModel(document: document) {
                         self.closeDocument(document)
                     }
-                    let controller = UIHostingController(rootView: viewModel.view.environmentObject(viewModel.player))
+                    let controller = UIHostingController(rootView: viewModel.environment)
                     self.present(controller, animated: true, completion: nil)
                 } else {
                     // Display the content of the document:
