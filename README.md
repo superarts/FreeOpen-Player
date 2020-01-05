@@ -24,7 +24,7 @@ To start, I'm trying to build a video player with real time filter, which will b
 
 I'm not going to add links to files for now; to look up code, please clone repo, open project in Xcode, and search for keywords `command + shift + F`.
 
-## `v0.1`: Single View Video Player
+## [`v0.1`: Single View Video Player](https://github.com/superarts/FreeOpen-Player/tree/0.1-single-view)
 
 I started this project using the "Document Based App" template. By default, it doesn't have scene delegate, and `SwiftUI` preview is not enabled, too.
 
