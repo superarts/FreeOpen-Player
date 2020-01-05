@@ -8,7 +8,8 @@
 
 import AVFoundation
 
-class PlayerView: UIView {
+// AVPlayer is not supported by SwiftUI yet
+class LegacyPlayerView: UIView {
 
     private let playerLayer = AVPlayerLayer()
 
@@ -30,7 +31,8 @@ class PlayerView: UIView {
 
 import Combine
 
-final class VideoPlayer: ObservableObject {
+final class ObservableVideoPlayer: ObservableObject {
+    // Exposing `player` to pass it to `LegacyPlayerView`
     let player: AVPlayer
 
     init(url: URL) {
@@ -73,14 +75,14 @@ import SwiftUI
 // VideoPlayerViewModel captures `self` in toggleAction.
 // It should be strongly retained, because it owns View.
 final class VideoPlayerViewModel {
+    // Exposing `view` for navigation
     var view: VideoPlayerView!
 
-    let player: VideoPlayer
-//    private let player: AVPlayer
+    // Exposing `player` for observation
+    let player: ObservableVideoPlayer
 
     init(document: UIDocument, dismiss: @escaping () -> Void) {
-        player = VideoPlayer(url: document.fileURL)
-//        player.player = AVPlayer(url: document.fileURL)
+        player = ObservableVideoPlayer(url: document.fileURL)
         view = VideoPlayerView(player: player.player, dismiss: dismiss, toggle: toggleAction)
 
         player.play()
@@ -88,22 +90,15 @@ final class VideoPlayerViewModel {
 
     private lazy var toggleAction: () -> Void = {
         print("PLAYER toggle \(self.player.player.timeControlStatus)")
-//        if self.player.player.timeControlStatus == .paused {
-//            self.player.player.play()
-//        } else {
-//            self.player.player.pause()
-//        }
         self.player.toggle()
     }
 }
 
 struct VideoPlayerView: View {
-    let representer: VideoPlayerRepresenter
-
-    @EnvironmentObject var player: VideoPlayer
-
+    @EnvironmentObject private var player: ObservableVideoPlayer
+    private let representer: VideoPlayerRepresenter
     private let dismissAction: () -> Void
-    var toggleAction: () -> Void
+    private let toggleAction: () -> Void
 
     init(player: AVPlayer, dismiss: @escaping () -> Void, toggle: @escaping () -> Void) {
         self.dismissAction = dismiss
@@ -125,10 +120,10 @@ struct VideoPlayerView: View {
 
 /// Represent PlayerView
 struct VideoPlayerRepresenter: UIViewRepresentable {
-    let playerView: PlayerView
+    private let playerView: LegacyPlayerView
 
     init(player: AVPlayer) {
-        playerView = PlayerView(player: player)
+        playerView = LegacyPlayerView(player: player)
     }
 
     func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<VideoPlayerRepresenter>) {
