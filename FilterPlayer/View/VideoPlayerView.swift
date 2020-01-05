@@ -9,12 +9,22 @@
 import AVFoundation
 
 class PlayerView: UIView {
+    var url: URL
+
     private let playerLayer = AVPlayerLayer()
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(url: URL) {
+        self.url = url
+        super.init(frame: .zero)
+        setupPlayer()
+    }
 
-        let url = URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!
+//    override init(frame: CGRect) {
+//        super.init(frame: frame)
+//    }
+
+    private func setupPlayer() {
+        // let url = URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!
         let player = AVPlayer(url: url)
         player.play()
 
@@ -37,26 +47,37 @@ class PlayerView: UIView {
 import SwiftUI
 
 struct VideoPlayerView: View {
+    // Init from default constructor
+    var document: UIDocument
+    var dismiss: () -> Void
+
     var body: some View {
-        VideoPlayerRepresenter()
+        VStack {
+            Text("Playing")
+            VideoPlayerRepresenter(url: document.fileURL)
+            Button("Done", action: dismiss)
+        }
     }
 }
 
 // MARK: - Preview
 
-#if DEBUG
+/// Represent PlayerView
 struct VideoPlayerRepresenter: UIViewRepresentable {
+    var url: URL
+
     func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<VideoPlayerRepresenter>) {
     }
 
     func makeUIView(context: Context) -> UIView {
-        return PlayerView(frame: .zero)
+        return PlayerView(url: url)
     }
 }
 
+#if DEBUG
 struct VideoPlayerView_Previews: PreviewProvider {
     static var previews: some View {
-        VideoPlayerView()
+        VideoPlayerView(document: UIDocument(fileURL: URL(string: "file:///Users/leo/Public")!)) { }
     }
 }
 #endif

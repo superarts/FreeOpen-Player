@@ -69,13 +69,21 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
         // Access the document
         document.open(completionHandler: { success in
             if success {
-                // Display the content of the document:
-                let view = DocumentView(document: document, dismiss: {
-                    self.closeDocument(document)
-                })
+                if true {
+                    let view = VideoPlayerView(document: document) {
+                        self.closeDocument(document)
+                    }
+                    let controller = UIHostingController(rootView: view)
+                    self.present(controller, animated: true, completion: nil)
+                } else {
+                    // Display the content of the document:
+                    let view = DocumentView(document: document, dismiss: {
+                        self.closeDocument(document)
+                    })
 
-                let documentViewController = UIHostingController(rootView: view)
-                self.present(documentViewController, animated: true, completion: nil)
+                    let documentViewController = UIHostingController(rootView: view)
+                    self.present(documentViewController, animated: true, completion: nil)
+                }
             } else {
                 // Make sure to handle the failed import appropriately, e.g., by presenting an error message to the user.
             }
