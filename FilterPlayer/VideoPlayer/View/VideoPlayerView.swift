@@ -9,30 +9,30 @@
 import SwiftUI
 import AVFoundation
 
-/// `SwiftUI` Views are passive. Their behaviors are controlled by ViewModels.
+/// `SwiftUI` Views should be passive. Use ViewModel to handle business logic.
 struct VideoPlayerView: View {
 
     @EnvironmentObject private var player: ObservableVideoPlayer
     @State private var isAboutPresented: Bool = false
     private let representer: VideoPlayerRepresenter
     private let dismissAction: () -> Void
-    private let toggleAction: () -> Void
+    private let viewModel: VideoPlayerViewModel
 
-    init(
-        player: AVPlayer,
-        dismiss: @escaping () -> Void,
-        toggle: @escaping () -> Void
-    ) {
+    init(document: UIDocument, dismiss: @escaping () -> Void) {
         self.dismissAction = dismiss
-        self.toggleAction = toggle
-        representer = VideoPlayerRepresenter(player: player)
+        self.viewModel = VideoPlayerViewModel(url: document.fileURL)
+        representer = VideoPlayerRepresenter(player: viewModel.player.player)
+    }
+
+    var environment: some View {
+        environmentObject(viewModel.player)
     }
 
     var body: some View {
         VStack {
             Text("Player")
             representer
-            Button(self.player.status, action: toggleAction)
+            Button(self.player.status, action: viewModel.toggleAction)
             Button("Done", action: dismissAction)
             Button("About") {
                 self.isAboutPresented = true
@@ -44,6 +44,42 @@ struct VideoPlayerView: View {
         }
     }
 }
+
+/// `SwiftUI` Views are passive. Their behaviors are controlled by ViewModels.
+//struct VideoPlayerView: View {
+//
+//    @EnvironmentObject private var player: ObservableVideoPlayer
+//    @State private var isAboutPresented: Bool = false
+//    private let representer: VideoPlayerRepresenter
+//    private let dismissAction: () -> Void
+//    private let toggleAction: () -> Void
+//
+//    init(
+//        player: AVPlayer,
+//        dismiss: @escaping () -> Void,
+//        toggle: @escaping () -> Void
+//    ) {
+//        self.dismissAction = dismiss
+//        self.toggleAction = toggle
+//        representer = VideoPlayerRepresenter(player: player)
+//    }
+//
+//    var body: some View {
+//        VStack {
+//            Text("Player")
+//            representer
+//            Button(self.player.status, action: toggleAction)
+//            Button("Done", action: dismissAction)
+//            Button("About") {
+//                self.isAboutPresented = true
+//            }.sheet(isPresented: self.$isAboutPresented) {
+//                AboutView {
+//                    self.isAboutPresented = false
+//                }
+//            }
+//        }
+//    }
+//}
 
 // MARK: - Preview
 
@@ -67,11 +103,7 @@ struct VideoPlayerRepresenter: UIViewRepresentable {
 /// For `SwiftUI` preview
 struct VideoPlayerView_Previews: PreviewProvider {
     static var previews: some View {
-        return VideoPlayerView(
-            player: AVPlayer(url: URL(string: "file:///Users/leo/Public")!),
-            dismiss: { },
-            toggle: { }
-        )
+        return VideoPlayerView(document: UIDocument(fileURL: URL(string: "/Users/leo/Public")!)) { }
     }
 }
 #endif

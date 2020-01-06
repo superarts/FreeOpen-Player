@@ -72,10 +72,14 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
             if success {
                 let type = AVFileType(document.fileType ?? "")
                 if [.mp4, .mov, .m4v].contains(type) {
-                    let viewModel = VideoPlayerViewModel(document: document) {
+//                    let viewModel = VideoPlayerViewModel(document: document) {
+//                        self.closeDocument(document)
+//                    }
+//                    let controller = UIHostingController(rootView: viewModel.environment)
+                    let view = VideoPlayerView(document: document) {
                         self.closeDocument(document)
                     }
-                    let controller = UIHostingController(rootView: viewModel.environment)
+                    let controller = UIHostingController(rootView: view.environment)
                     self.present(controller, animated: true, completion: nil)
                 } else {
                     // Display the content of the document:

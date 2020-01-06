@@ -58,3 +58,9 @@ Please check the following components for Preview.
 
 - `DocumentBrowserViewController` is not refactored yet. It is currently a typical massive view controller that does everything.
 - In `presentDocument(at:)`, we inject `dismissAction` into `VideoPlayerViewModel`. The idea is that `VideoPlayerViewModel` should not be aware of its caller. However, I need to learn more about the whole navigation concept of `SwiftUI` to figure out which part should be responsible for navigation.
+
+## `v0.2`: Navigation
+
+In `0.1` design, the way I was using [View Model](#view-model) was more like a combination of coordinator and view model. The idea is that it handles all business logic, which includes navigation logic. With `UIKit`, it would access `UINavigationController`; with `SwiftUI`, it injects behavior to `View`, and provides `View` to previous view model.
+
+Although this model would work, I feel like by the design of `SwiftUI`, it would be much easier to handle navigation logic inside `View` due to tools like `@State`. In this case, `View` will own `ViewModel` and get behaviors from it, instead of being injected. I'm going to explore this route in `v0.2`.
