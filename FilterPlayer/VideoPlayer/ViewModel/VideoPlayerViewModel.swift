@@ -18,7 +18,11 @@ final class VideoPlayerViewModel {
 
     init(document: UIDocument, dismiss: @escaping () -> Void) {
         player = ObservableVideoPlayer(url: document.fileURL)
-        view = VideoPlayerView(player: player.player, dismiss: dismiss, toggle: toggleAction)
+        view = VideoPlayerView(
+            player: player.player,
+            dismiss: dismiss,
+            toggle: toggleAction
+        )
 
         player.play()
     }

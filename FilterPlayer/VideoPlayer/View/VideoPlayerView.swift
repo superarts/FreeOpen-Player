@@ -13,11 +13,16 @@ import AVFoundation
 struct VideoPlayerView: View {
 
     @EnvironmentObject private var player: ObservableVideoPlayer
+    @State private var isAboutPresented: Bool = false
     private let representer: VideoPlayerRepresenter
     private let dismissAction: () -> Void
     private let toggleAction: () -> Void
 
-    init(player: AVPlayer, dismiss: @escaping () -> Void, toggle: @escaping () -> Void) {
+    init(
+        player: AVPlayer,
+        dismiss: @escaping () -> Void,
+        toggle: @escaping () -> Void
+    ) {
         self.dismissAction = dismiss
         self.toggleAction = toggle
         representer = VideoPlayerRepresenter(player: player)
@@ -29,6 +34,13 @@ struct VideoPlayerView: View {
             representer
             Button(self.player.status, action: toggleAction)
             Button("Done", action: dismissAction)
+            Button("About") {
+                self.isAboutPresented = true
+            }.sheet(isPresented: self.$isAboutPresented) {
+                AboutView {
+                    self.isAboutPresented = false
+                }
+            }
         }
     }
 }

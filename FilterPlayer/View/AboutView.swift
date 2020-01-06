@@ -9,13 +9,22 @@
 import SwiftUI
 
 struct AboutView: View {
+    private let dismissAction: () -> Void
+
+    init(dismiss: @escaping () -> Void) {
+        self.dismissAction = dismiss
+    }
+
     var body: some View {
-        Text("FreeOpen Player™")
+        VStack {
+            Text("FreeOpen Player™")
+            Button("Done", action: dismissAction)
+        }
     }
 }
 
 struct AlertView_Previews: PreviewProvider {
     static var previews: some View {
-        AboutView()
+        AboutView { }
     }
 }
