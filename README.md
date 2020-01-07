@@ -61,6 +61,35 @@ Please check the following components for Preview.
 
 ## `v0.2`: Navigation
 
+### Wrapper for `UIViewController`
+
+The reason that Xcode "Document Based App" template is not based on `SwiftUI` is probably due to the fact that `UIDocumentBrowserViewController` is still a `UIKit` component. In [Working with `UIKit`](#working-with-uikit), we created wrapper to represent `UIView` in `View`, and `VideoPlayerView` is our `SwiftUI` view. Now we are going to wrap `DocumentBrowserViewController` with `SwiftUI`.
+
+- `DocumentBrowserView` is created as a `SwiftUI` View.
+- `DocumentBrowserRepresenter` represents `DocumentBrowserViewController`, which is inherited from `UIDocumentBrowserViewController` in `UIKit`.
+- `DocumentBrowserView_Previews` handles `SwiftUI` preview.
+
+### Storyboard to Scene
+
+Now all of views are based on `SwiftUI`, but the app is still `Storyboard` based. We know that iOS app starts from `main()` and when its run loop reaches `UIApplicationDelegate`, UI will be launched based on different settings:
+
+- If nothing is set up, we need to add a `UIView` to `UIWindow`, or add a `UIViewController` as the `rootViewCoontroller` of `UIWindow` (programmatically or from `xib`);
+- If `Main storyboard file base name` is set up in `Info.plist`, iOS looks for the storyboard file, instantiate its root view controller, and add it to `UIWindow`;
+- And now, we have a new `Application Scene Manifest` in `Info.plist`. `Configuration Name` is the new entry point name.
+
+So to move to `SwiftUI`, we need to:
+
+- Replace `Main storyboard file base name` with `Application Scene Manifest` in `Info.plist`;
+- Update `AppDelegate` with `UISceneSession`;
+- Add `SceneDelegate`, and our entry `View` will be set there.
+- We also need to handle `openURL`. I'll work on that future releases.
+
+Our app is now fully based on `SwiftUI`. 
+
+### Ownership
+
 In `0.1` design, the way I was using [View Model](#view-model) was more like a combination of coordinator and view model. The idea is that it handles all business logic, which includes navigation logic. With `UIKit`, it would access `UINavigationController`; with `SwiftUI`, it injects behavior to `View`, and provides `View` to previous view model.
 
-Although this model would work, I feel like by the design of `SwiftUI`, it would be much easier to handle navigation logic inside `View` due to tools like `@State`. In this case, `View` will own `ViewModel` and get behaviors from it, instead of being injected. I'm going to explore this route in `v0.2`.
+Although this model would work, I feel like by the design of `SwiftUI`, it would be much easier to handle navigation logic inside `View` due to tools like `@State`. In this case, `View` will own `ViewModel` and get behaviors from it, instead of being injected. I'm exploring this route in `v0.2`.
+
+- `VideoPlayerView` now owns `VideoPlayerViewModel`.

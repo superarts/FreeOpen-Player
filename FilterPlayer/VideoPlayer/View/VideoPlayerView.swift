@@ -9,6 +9,8 @@
 import SwiftUI
 import AVFoundation
 
+// MARK: - View
+
 /// `SwiftUI` Views should be passive. Use ViewModel to handle business logic.
 struct VideoPlayerView: View {
 
@@ -81,7 +83,7 @@ struct VideoPlayerView: View {
 //    }
 //}
 
-// MARK: - Preview
+// MARK: - Wrapper
 
 /// Represent LegacyPlayerView. It is set up by ViewModel.
 struct VideoPlayerRepresenter: UIViewRepresentable {
@@ -98,6 +100,8 @@ struct VideoPlayerRepresenter: UIViewRepresentable {
         return playerView
     }
 }
+
+// MARK: - Preview
 
 #if DEBUG
 /// For `SwiftUI` preview

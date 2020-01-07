@@ -105,26 +105,26 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
 
 // MARK: - Preview
 
-#if DEBUG
-struct DocumentBrowserViewControllerRepresenter: UIViewControllerRepresentable {
-
-    typealias UIViewControllerType = DocumentBrowserViewController
-
-    func makeUIViewController(context: UIViewControllerRepresentableContext<DocumentBrowserViewControllerRepresenter>) -> DocumentBrowserViewControllerRepresenter.UIViewControllerType {
-        return DocumentBrowserViewController()
-    }
-
-    func updateUIViewController(
-        _ uiViewController: DocumentBrowserViewControllerRepresenter.UIViewControllerType,
-        context: UIViewControllerRepresentableContext<DocumentBrowserViewControllerRepresenter>
-    ) {
-        //
-    }
-}
-
-struct DocumentViewController_Previews: PreviewProvider {
-    static var previews: some View {
-        DocumentBrowserViewControllerRepresenter()
-    }
-}
-#endif
+//#if DEBUG
+//struct DocumentBrowserViewControllerRepresenter: UIViewControllerRepresentable {
+//
+//    typealias UIViewControllerType = DocumentBrowserViewController
+//
+//    func makeUIViewController(context: UIViewControllerRepresentableContext<DocumentBrowserViewControllerRepresenter>) -> DocumentBrowserViewControllerRepresenter.UIViewControllerType {
+//        return DocumentBrowserViewController()
+//    }
+//
+//    func updateUIViewController(
+//        _ uiViewController: DocumentBrowserViewControllerRepresenter.UIViewControllerType,
+//        context: UIViewControllerRepresentableContext<DocumentBrowserViewControllerRepresenter>
+//    ) {
+//        //
+//    }
+//}
+//
+//struct DocumentViewController_Previews: PreviewProvider {
+//    static var previews: some View {
+//        DocumentBrowserViewControllerRepresenter()
+//    }
+//}
+//#endif

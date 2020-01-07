@@ -21,6 +21,7 @@
 		B3EE96E623C276A10085A2E8 /* VideoPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EE96E523C276A10085A2E8 /* VideoPlayerViewModel.swift */; };
 		B3EE96E823C277350085A2E8 /* LegacyPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EE96E723C277350085A2E8 /* LegacyPlayerView.swift */; };
 		B3EE96EA23C2778D0085A2E8 /* ObservableVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EE96E923C2778D0085A2E8 /* ObservableVideoPlayer.swift */; };
+		B3EE96ED23C40FD10085A2E8 /* DocumentBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EE96EC23C40FD10085A2E8 /* DocumentBrowserView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		B3EE96E523C276A10085A2E8 /* VideoPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerViewModel.swift; sourceTree = "<group>"; };
 		B3EE96E723C277350085A2E8 /* LegacyPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyPlayerView.swift; sourceTree = "<group>"; };
 		B3EE96E923C2778D0085A2E8 /* ObservableVideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableVideoPlayer.swift; sourceTree = "<group>"; };
+		B3EE96EC23C40FD10085A2E8 /* DocumentBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentBrowserView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,10 +113,10 @@
 		B3430C5523BB82A4008D93D4 /* FilterPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				B3EE96EB23C40FA30085A2E8 /* DocumentBrowser */,
 				B3EE96E123C276580085A2E8 /* VideoPlayer */,
 				B36643F623BD0121007AB084 /* View */,
 				B3430C5623BB82A4008D93D4 /* AppDelegate.swift */,
-				B3430C5823BB82A4008D93D4 /* DocumentBrowserViewController.swift */,
 				B3430C5A23BB82A4008D93D4 /* DocumentView.swift */,
 				B3430C5C23BB82A4008D93D4 /* Document.swift */,
 				B3430C5E23BB82A4008D93D4 /* Main.storyboard */,
@@ -184,6 +186,15 @@
 				B3EE96E923C2778D0085A2E8 /* ObservableVideoPlayer.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		B3EE96EB23C40FA30085A2E8 /* DocumentBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				B3430C5823BB82A4008D93D4 /* DocumentBrowserViewController.swift */,
+				B3EE96EC23C40FD10085A2E8 /* DocumentBrowserView.swift */,
+			);
+			path = DocumentBrowser;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -317,6 +328,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3EE96ED23C40FD10085A2E8 /* DocumentBrowserView.swift in Sources */,
 				B3EE96E623C276A10085A2E8 /* VideoPlayerViewModel.swift in Sources */,
 				B36643F823BD012E007AB084 /* AboutView.swift in Sources */,
 				B3430C5D23BB82A4008D93D4 /* Document.swift in Sources */,
