@@ -12,10 +12,7 @@ import AVFoundation
 /// This delegate object separates responsibility of `ViewModel`.
 /// It only handles UI Logic. Business logic should be handled by `ViewModel`.
 final class DocumentBrowserViewControllerDelegate: NSObject, UIDocumentBrowserViewControllerDelegate {
-//    /// This action is used to handle video files.
-//    private let presentVideoAction: (UIDocument) -> Void
-//    /// This action is used to handle other files.
-//    private let presentDefaultAction: (UIDocument) -> Void
+    /// This action is used to handle opening files.
     private let documentAction: (UIDocument) -> Void
 
     init(documentAction: @escaping (UIDocument) -> Void) {
@@ -61,13 +58,10 @@ final class DocumentBrowserViewControllerDelegate: NSObject, UIDocumentBrowserVi
         // Access the document
         document.open(completionHandler: { success in
             if success {
+                /// Picking file is UI logic, which is handled here, in delegate object.
+                /// File type handling is business logic, which is handled in `ViewModel`.
+                /// Presenting a new `View` is navigation logic, which is handled in `Coordinator`.
                 self.documentAction(document)
-//                let type = AVFileType(document.fileType ?? "")
-//                if [.mp4, .mov, .m4v].contains(type) {
-//                    self.presentVideoAction(document)
-//                } else {
-//                    self.presentDefaultAction(document)
-//                }
             } else {
                 // Make sure to handle the failed import appropriately, e.g., by presenting an error message to the user.
             }
