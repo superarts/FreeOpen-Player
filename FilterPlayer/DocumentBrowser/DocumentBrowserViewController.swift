@@ -89,25 +89,9 @@ class DocumentBrowserViewControllerDelegate: NSObject, UIDocumentBrowserViewCont
             if success {
                 let type = AVFileType(document.fileType ?? "")
                 if [.mp4, .mov, .m4v].contains(type) {
-//                    let viewModel = VideoPlayerViewModel(document: document) {
-//                        self.closeDocument(document)
-//                    }
-//                    let controller = UIHostingController(rootView: viewModel.environment)
-//                    let view = VideoPlayerView(document: document) {
-//                        self.closeDocument(document)
-//                    }
-//                    let controller = UIHostingController(rootView: view.environment)
                     self.presentVideoAction(document)
-//                    self.present(controller, animated: true, completion: nil)
                 } else {
-//                    // Display the content of the document:
-//                    let view = DocumentView(document: document, dismiss: {
-//                        self.closeDocument(document)
-//                    })
-//
-//                    let controller = UIHostingController(rootView: view)
                     self.presentDefaultAction(document)
-//                    self.present(documentViewController, animated: true, completion: nil)
                 }
             } else {
                 // Make sure to handle the failed import appropriately, e.g., by presenting an error message to the user.
@@ -116,10 +100,6 @@ class DocumentBrowserViewControllerDelegate: NSObject, UIDocumentBrowserViewCont
     }
 
     func closeDocument(_ document: Document) {
-//        dismiss(animated: true) {
-//            document.close(completionHandler: nil)
-//        }
-//        document.close(completionHandler: nil)
         dismissAction(document)
     }
 }
