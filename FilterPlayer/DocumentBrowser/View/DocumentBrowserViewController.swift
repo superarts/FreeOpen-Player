@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// "Legacy" views depend on `UIKit`, because `UIDocumentBrowserViewController` is not natively supported by `SwiftUI` yet.
 class DocumentBrowserViewController: UIDocumentBrowserViewController {
 
     var documentBrowserDelegate: UIDocumentBrowserViewControllerDelegate?

@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-/// "Legacy" views depend on `UIKit`, because `AVPlayer` is not supported by `SwiftUI` yet.
+/// "Legacy" views depend on `UIKit`, because `AVPlayer` is not natively supported by `SwiftUI` yet.
 class LegacyPlayerView: UIView {
 
     private let playerLayer = AVPlayerLayer()

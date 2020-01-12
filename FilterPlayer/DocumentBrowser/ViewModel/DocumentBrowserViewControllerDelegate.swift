@@ -9,20 +9,17 @@
 import SwiftUI
 import AVFoundation
 
-class DocumentBrowserViewControllerDelegate: NSObject, UIDocumentBrowserViewControllerDelegate {
+/// This delegate object separates responsibility of `ViewModel`.
+/// It only handles UI Logic. Business logic should be handled by `ViewModel`.
+final class DocumentBrowserViewControllerDelegate: NSObject, UIDocumentBrowserViewControllerDelegate {
+//    /// This action is used to handle video files.
+//    private let presentVideoAction: (UIDocument) -> Void
+//    /// This action is used to handle other files.
+//    private let presentDefaultAction: (UIDocument) -> Void
+    private let documentAction: (UIDocument) -> Void
 
-    private let presentVideoAction: (UIDocument) -> Void
-    private let presentDefaultAction: (UIDocument) -> Void
-    private let dismissAction: (UIDocument) -> Void
-
-    init(
-        presentVideoAction: @escaping (UIDocument) -> Void,
-        presentDefaultAction: @escaping (UIDocument) -> Void,
-        dismissAction: @escaping (UIDocument) -> Void
-    ) {
-        self.presentVideoAction = presentVideoAction
-        self.presentDefaultAction = presentDefaultAction
-        self.dismissAction = dismissAction
+    init(documentAction: @escaping (UIDocument) -> Void) {
+        self.documentAction = documentAction
         super.init()
     }
 
@@ -64,19 +61,16 @@ class DocumentBrowserViewControllerDelegate: NSObject, UIDocumentBrowserViewCont
         // Access the document
         document.open(completionHandler: { success in
             if success {
-                let type = AVFileType(document.fileType ?? "")
-                if [.mp4, .mov, .m4v].contains(type) {
-                    self.presentVideoAction(document)
-                } else {
-                    self.presentDefaultAction(document)
-                }
+                self.documentAction(document)
+//                let type = AVFileType(document.fileType ?? "")
+//                if [.mp4, .mov, .m4v].contains(type) {
+//                    self.presentVideoAction(document)
+//                } else {
+//                    self.presentDefaultAction(document)
+//                }
             } else {
                 // Make sure to handle the failed import appropriately, e.g., by presenting an error message to the user.
             }
         })
-    }
-
-    func closeDocument(_ document: Document) {
-        dismissAction(document)
     }
 }

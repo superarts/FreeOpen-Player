@@ -10,33 +10,30 @@ import AVFoundation
 import UIKit
 
 /// Business logic
-struct DocumentBrowserViewModel {
-
-    let documentBrowserDelegate: DocumentBrowserViewControllerDelegate
+final class DocumentBrowserViewModel {
+    /// Instead of an extension, we use composition with a stand-alone delegate object.
+    private(set) var documentBrowserDelegate: DocumentBrowserViewControllerDelegate!
+    /// This action handles business operations when a file viewer is closed
     let dismissDocumentAction: (UIDocument) -> Void = { document in
         document.close(completionHandler: nil)
     }
 
+    /// Navigation logic file opening is injected from `Coordinator`.
     private let presentVideoAction: (UIDocument) -> Void
     private let presentDefaultAction: (UIDocument) -> Void
-    private let dismissAction: (UIDocument) -> Void
 
     init(
         presentVideoAction: @escaping (UIDocument) -> Void,
-        presentDefaultAction: @escaping (UIDocument) -> Void,
-        dismissAction: @escaping (UIDocument) -> Void
+        presentDefaultAction: @escaping (UIDocument) -> Void
     ) {
         self.presentVideoAction = presentVideoAction
         self.presentDefaultAction = presentDefaultAction
-        self.dismissAction = dismissAction
         documentBrowserDelegate = DocumentBrowserViewControllerDelegate(
-            presentVideoAction: presentVideoAction,
-            presentDefaultAction: presentDefaultAction,
-            dismissAction: dismissAction
+            documentAction: documentAction
         )
     }
 
-    private func action(document: UIDocument) {
+    private lazy var documentAction: (UIDocument) -> Void = { document in
         let type = AVFileType(document.fileType ?? "")
         if [.mp4, .mov, .m4v].contains(type) {
             self.presentVideoAction(document)
