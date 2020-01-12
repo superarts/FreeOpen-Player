@@ -12,24 +12,23 @@ import SwiftUI
 
 struct DocumentBrowserView: View {
 
-    private var viewModel: DocumentBrowserViewModel!
-    private let representer: DocumentBrowserRepresenter
+    let representer: DocumentBrowserRepresenter
 
     init() {
         representer = DocumentBrowserRepresenter()
-        setup()
+//        setup()
     }
 
     /// Mutating because navigation logic depends on `representer.controller`
-    private mutating func setup() {
-        let coordinator = DocumentBrowserCoordinator(controller: self.representer.controller)
-        viewModel = DocumentBrowserViewModel(
-            presentVideoAction: coordinator.presentAction,
-            presentDefaultAction: coordinator.presentAction,
-            dismissAction: coordinator.dismissAction
-        )
-        representer.controller.delegate = viewModel.documentBrowserDelegate
-    }
+//    private mutating func setup() {
+//        let coordinator = DocumentBrowserCoordinator(controller: self.representer.controller) { }
+//        viewModel = DocumentBrowserViewModel(
+//            presentVideoAction: coordinator.presentAction,
+//            presentDefaultAction: coordinator.presentAction,
+//            dismissAction: coordinator.dismissAction
+//        )
+//        representer.controller.delegate = viewModel.documentBrowserDelegate
+//    }
 
     var body: some View {
         representer

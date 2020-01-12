@@ -34,14 +34,14 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController {
 
 class DocumentBrowserViewControllerDelegate: NSObject, UIDocumentBrowserViewControllerDelegate {
 
-    private let presentVideoAction: (UIViewController) -> Void
-    private let presentDefaultAction: (UIViewController) -> Void
-    private let dismissAction: () -> Void
+    private let presentVideoAction: (UIDocument) -> Void
+    private let presentDefaultAction: (UIDocument) -> Void
+    private let dismissAction: (UIDocument) -> Void
 
     init(
-        presentVideoAction: @escaping (UIViewController) -> Void,
-        presentDefaultAction: @escaping (UIViewController) -> Void,
-        dismissAction: @escaping () -> Void
+        presentVideoAction: @escaping (UIDocument) -> Void,
+        presentDefaultAction: @escaping (UIDocument) -> Void,
+        dismissAction: @escaping (UIDocument) -> Void
     ) {
         self.presentVideoAction = presentVideoAction
         self.presentDefaultAction = presentDefaultAction
@@ -93,20 +93,20 @@ class DocumentBrowserViewControllerDelegate: NSObject, UIDocumentBrowserViewCont
 //                        self.closeDocument(document)
 //                    }
 //                    let controller = UIHostingController(rootView: viewModel.environment)
-                    let view = VideoPlayerView(document: document) {
-                        self.closeDocument(document)
-                    }
-                    let controller = UIHostingController(rootView: view.environment)
-                    self.presentVideoAction(controller)
+//                    let view = VideoPlayerView(document: document) {
+//                        self.closeDocument(document)
+//                    }
+//                    let controller = UIHostingController(rootView: view.environment)
+                    self.presentVideoAction(document)
 //                    self.present(controller, animated: true, completion: nil)
                 } else {
-                    // Display the content of the document:
-                    let view = DocumentView(document: document, dismiss: {
-                        self.closeDocument(document)
-                    })
-
-                    let controller = UIHostingController(rootView: view)
-                    self.presentDefaultAction(controller)
+//                    // Display the content of the document:
+//                    let view = DocumentView(document: document, dismiss: {
+//                        self.closeDocument(document)
+//                    })
+//
+//                    let controller = UIHostingController(rootView: view)
+                    self.presentDefaultAction(document)
 //                    self.present(documentViewController, animated: true, completion: nil)
                 }
             } else {
@@ -119,7 +119,7 @@ class DocumentBrowserViewControllerDelegate: NSObject, UIDocumentBrowserViewCont
 //        dismiss(animated: true) {
 //            document.close(completionHandler: nil)
 //        }
-        document.close(completionHandler: nil)
-        dismissAction()
+//        document.close(completionHandler: nil)
+        dismissAction(document)
     }
 }
