@@ -10,14 +10,14 @@ import UIKit
 import SwiftUI
 import AVFoundation
 
-class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocumentBrowserViewControllerDelegate {
-    
+class DocumentBrowserViewController: UIDocumentBrowserViewController {
+
+    var documentBrowserDelegate: UIDocumentBrowserViewControllerDelegate?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        delegate = self
-        
-        allowsDocumentCreation = true
+        allowsDocumentCreation = false
         allowsPickingMultipleItems = false
         
         // Update the style of the UIDocumentBrowserViewController
@@ -28,10 +28,27 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
         
         // Do any additional setup after loading the view.
     }
-    
-    
-    // MARK: UIDocumentBrowserViewControllerDelegate
-    
+}
+
+// MARK: UIDocumentBrowserViewControllerDelegate
+
+class DocumentBrowserViewControllerDelegate: NSObject, UIDocumentBrowserViewControllerDelegate {
+
+    private let presentVideoAction: (UIViewController) -> Void
+    private let presentDefaultAction: (UIViewController) -> Void
+    private let dismissAction: () -> Void
+
+    init(
+        presentVideoAction: @escaping (UIViewController) -> Void,
+        presentDefaultAction: @escaping (UIViewController) -> Void,
+        dismissAction: @escaping () -> Void
+    ) {
+        self.presentVideoAction = presentVideoAction
+        self.presentDefaultAction = presentDefaultAction
+        self.dismissAction = dismissAction
+        super.init()
+    }
+
     func documentBrowser(_ controller: UIDocumentBrowserViewController, didRequestDocumentCreationWithHandler importHandler: @escaping (URL?, UIDocumentBrowserViewController.ImportMode) -> Void) {
         let newDocumentURL: URL? = nil
         
@@ -80,15 +97,17 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
                         self.closeDocument(document)
                     }
                     let controller = UIHostingController(rootView: view.environment)
-                    self.present(controller, animated: true, completion: nil)
+                    self.presentVideoAction(controller)
+//                    self.present(controller, animated: true, completion: nil)
                 } else {
                     // Display the content of the document:
                     let view = DocumentView(document: document, dismiss: {
                         self.closeDocument(document)
                     })
 
-                    let documentViewController = UIHostingController(rootView: view)
-                    self.present(documentViewController, animated: true, completion: nil)
+                    let controller = UIHostingController(rootView: view)
+                    self.presentDefaultAction(controller)
+//                    self.present(documentViewController, animated: true, completion: nil)
                 }
             } else {
                 // Make sure to handle the failed import appropriately, e.g., by presenting an error message to the user.
@@ -97,8 +116,10 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
     }
 
     func closeDocument(_ document: Document) {
-        dismiss(animated: true) {
-            document.close(completionHandler: nil)
-        }
+//        dismiss(animated: true) {
+//            document.close(completionHandler: nil)
+//        }
+        document.close(completionHandler: nil)
+        dismissAction()
     }
 }
