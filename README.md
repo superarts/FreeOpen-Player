@@ -13,6 +13,13 @@ This project is to explore `SwiftUI`.
   - [View Model](#view-model)
   - [Observable](#observable)
   - [`DocumentBrowserViewController`](#documentbrowserviewcontroller)
+- [`v0.2`: Navigation](#v02-navigation)
+  - [Wrapper for `UIViewController`](#wrapper-for-uiviewcontroller)
+  - [Storyboard to Scene](#storyboard-to-scene)
+  - [Ownership](#ownership)
+    - [`DocumentBrowser`](#documentbrowser)
+    - [`VideoPlayer`](#videoplayer)
+  - [Navigation](#navigation)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -90,6 +97,39 @@ Our app is now fully based on `SwiftUI`.
 
 In `0.1` design, the way I was using [View Model](#view-model) was more like a combination of coordinator and view model. The idea is that it handles all business logic, which includes navigation logic. With `UIKit`, it would access `UINavigationController`; with `SwiftUI`, it injects behavior to `View`, and provides `View` to previous view model.
 
-Although this model would work, I feel like by the design of `SwiftUI`, it would be much easier to handle navigation logic inside `View` due to tools like `@State`. In this case, `View` will own `ViewModel` and get behaviors from it, instead of being injected. I'm exploring this route in `v0.2`.
+~Although this model would work, I feel like by the design of `SwiftUI`, it would be much easier to handle navigation logic inside `View` due to tools like `@State`. In this case, `View` will own `ViewModel` and get behaviors from it, instead of being injected. I'm exploring this route in `v0.2`.~
+(Update: I figured out how it would work, please skip this part.)
 
-- `VideoPlayerView` now owns `VideoPlayerViewModel`.
+After some exploration, I went back to the old `MVVM-C` approach. It works like this:
+
+- `Coordinator` owns `View` and `ViewModel`.
+- App starts from a root `Coordinator's View`.
+- `View` and `ViewModel` do not own each other - we have different setup.
+- `View` cannot be mutable; using `class` will give you crash at `AppDelegate` with no helpful backtrace info.
+
+#### `DocumentBrowser`
+
+- `ViewModel`
+  - `ViewModel` depends on navigation actions from `Coordinator`.
+  - `ViewModel` owns a `DocumentBrowserViewControllerDelegate`.
+  - `DocumentBrowserViewControllerDelegate` depends on document handling action from `ViewModel`.
+- `View` owns `Representer`, that owns `UIViewController`.
+- `Coordinator`
+  - `Coordinator` sets `ViewModel`'s delegate object to `View`'s controller.
+  - `Coordinator`'s navigation logic depends on `View`'s controller.
+  - `Coordinator`'s navigation logic to next `VideoPlayerView` is not purely from `VideoPlayerCoordinator`, because part of the navigation logic depends on `UIKit`.
+- `Coordinator` and `ViewModel` are mutable, because they have actions that capture `self`.
+
+#### `VideoPlayer`
+
+- `ViewModel` provides business logic when play/pause button is toggled.
+  - Such logic is injected by `Coordinator`.
+- `View` reads `@EnvironmentObject`.
+- `View` owns `Representer` that owns `LegacyPlayerView`.
+- `Coordinator`'s navigation logic to next `AboutView` is from `AboutCoordinator`.
+
+### Navigation
+
+Although we just have a couple of `Views`, navigation logic design is still not easy, because some of them involves `UIKit` while some of them are purely `SwiftUI` based. We now have 3 `Coordinators`, and they cover several use cases.
+
+In `v0.2`, I stick to `MVVM-C` because it allows me to put navigation logic in a dedicated place. Since `View` doesn't own `ViewModel` now, behaviors have to be injected, instead of properties. This allows business logic to be decoupled from navigation logic and UI logic.
