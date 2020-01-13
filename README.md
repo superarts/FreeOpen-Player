@@ -66,7 +66,7 @@ Please check the following components for Preview.
 - `DocumentBrowserViewController` is not refactored yet. It is currently a typical massive view controller that does everything.
 - In `presentDocument(at:)`, we inject `dismissAction` into `VideoPlayerViewModel`. The idea is that `VideoPlayerViewModel` should not be aware of its caller. However, I need to learn more about the whole navigation concept of `SwiftUI` to figure out which part should be responsible for navigation.
 
-## `v0.2`: Navigation
+## [`v0.2`: Navigation](https://github.com/superarts/FreeOpen-Player/tree/0.2-navigation#v02-navigation)
 
 ### Wrapper for `UIViewController`
 
@@ -133,3 +133,5 @@ After some exploration, I went back to the old `MVVM-C` approach. It works like 
 Although we just have a couple of `Views`, navigation logic design is still not easy, because some of them involves `UIKit` while some of them are purely `SwiftUI` based. We now have 3 `Coordinators`, and they cover several use cases.
 
 In `v0.2`, I stick to `MVVM-C` because it allows me to put navigation logic in a dedicated place. Since `View` doesn't own `ViewModel` now, behaviors have to be injected, instead of properties. This allows business logic to be decoupled from navigation logic and UI logic.
+
+## `v0.3`: TBD
