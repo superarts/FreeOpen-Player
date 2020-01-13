@@ -21,6 +21,7 @@
 		B3AAD4DA23CA5BC9006B9C0B /* DocumentBrowserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AAD4D923CA5BC9006B9C0B /* DocumentBrowserViewModel.swift */; };
 		B3AAD4DE23CADE2D006B9C0B /* DocumentBrowserViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AAD4DD23CADE2D006B9C0B /* DocumentBrowserViewControllerDelegate.swift */; };
 		B3AAD4E023CADE87006B9C0B /* DocumentBrowserCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AAD4DF23CADE87006B9C0B /* DocumentBrowserCoordinator.swift */; };
+		B3AAD4E223CBF00B006B9C0B /* VideoPlayerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AAD4E123CBF00B006B9C0B /* VideoPlayerCoordinator.swift */; };
 		B3EE96E623C276A10085A2E8 /* VideoPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EE96E523C276A10085A2E8 /* VideoPlayerViewModel.swift */; };
 		B3EE96E823C277350085A2E8 /* LegacyPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EE96E723C277350085A2E8 /* LegacyPlayerView.swift */; };
 		B3EE96EA23C2778D0085A2E8 /* ObservableVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EE96E923C2778D0085A2E8 /* ObservableVideoPlayer.swift */; };
@@ -65,6 +66,7 @@
 		B3AAD4D923CA5BC9006B9C0B /* DocumentBrowserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentBrowserViewModel.swift; sourceTree = "<group>"; };
 		B3AAD4DD23CADE2D006B9C0B /* DocumentBrowserViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentBrowserViewControllerDelegate.swift; sourceTree = "<group>"; };
 		B3AAD4DF23CADE87006B9C0B /* DocumentBrowserCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentBrowserCoordinator.swift; sourceTree = "<group>"; };
+		B3AAD4E123CBF00B006B9C0B /* VideoPlayerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerCoordinator.swift; sourceTree = "<group>"; };
 		B3EE96E523C276A10085A2E8 /* VideoPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerViewModel.swift; sourceTree = "<group>"; };
 		B3EE96E723C277350085A2E8 /* LegacyPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyPlayerView.swift; sourceTree = "<group>"; };
 		B3EE96E923C2778D0085A2E8 /* ObservableVideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableVideoPlayer.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 		B3EE96E323C2767D0085A2E8 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				B3AAD4E123CBF00B006B9C0B /* VideoPlayerCoordinator.swift */,
 				B3EE96E523C276A10085A2E8 /* VideoPlayerViewModel.swift */,
 			);
 			path = ViewModel;
@@ -364,6 +367,7 @@
 				B3AAD4DA23CA5BC9006B9C0B /* DocumentBrowserViewModel.swift in Sources */,
 				B3430C5723BB82A4008D93D4 /* AppDelegate.swift in Sources */,
 				B3EE96E823C277350085A2E8 /* LegacyPlayerView.swift in Sources */,
+				B3AAD4E223CBF00B006B9C0B /* VideoPlayerCoordinator.swift in Sources */,
 				B36643FA23BD297D007AB084 /* VideoPlayerView.swift in Sources */,
 				B3EE96EA23C2778D0085A2E8 /* ObservableVideoPlayer.swift in Sources */,
 			);

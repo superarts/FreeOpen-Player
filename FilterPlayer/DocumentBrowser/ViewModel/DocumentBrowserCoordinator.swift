@@ -31,11 +31,9 @@ final class DocumentBrowserCoordinator {
 
     /// Navigation behavior to handle opening video files.
     private lazy var presentVideoAction: (UIDocument) -> Void = { document in
-//        let view = VideoPlayerView(document: document) { }
         let coordinator = VideoPlayerCoordinator(document: document) {
             self.dismiss(document: document)
         }
-//        let controller = UIHostingController(rootView: view.environment)
         let controller = UIHostingController(rootView: coordinator.environment)
         self.controller.present(controller, animated: true, completion: nil)
     }

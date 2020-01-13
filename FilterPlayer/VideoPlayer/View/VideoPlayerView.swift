@@ -14,27 +14,26 @@ import AVFoundation
 /// `SwiftUI` Views should be passive. Use ViewModel to handle business logic.
 struct VideoPlayerView: View {
 
-    @EnvironmentObject private var player: ObservableVideoPlayer
-    @State var isAboutPresented: Bool
-    private let representer: VideoPlayerRepresenter
+    /// This action provides `AboutView` with a binding state `isPresented`
     var aboutViewAction: ((Binding<Bool>) -> AboutView)!
+
+    /// `AVPlayer` for representer
+    @EnvironmentObject private var player: ObservableVideoPlayer
+    /// `State` for `AboutView`
+    @State private var isAboutPresented: Bool
+    /// `Representer` that contains `LegacyPlayerView`
+    private let representer: VideoPlayerRepresenter
+    /// Action when play/pause state is toggled
     private let toggleAction: () -> Void
+    /// Action when `self` is dismissed
     private let dismissAction: () -> Void
-//    private let viewModel: VideoPlayerViewModel
 
     init(player: AVPlayer, toggle: @escaping () -> Void, dismiss: @escaping () -> Void) {
         _isAboutPresented = State(initialValue: false)
-//        self.aboutViewAction = aboutViewAction
         self.toggleAction = toggle
         self.dismissAction = dismiss
-//        self.viewModel = VideoPlayerViewModel(url: document.fileURL)
         representer = VideoPlayerRepresenter(player: player)
-        print("xx1 \($isAboutPresented)")
     }
-
-//    var environment: some View {
-//        environmentObject(viewModel.player)
-//    }
 
     var body: some View {
         VStack {
@@ -43,12 +42,11 @@ struct VideoPlayerView: View {
             Button(self.player.status, action: toggleAction)
             Button("Done", action: dismissAction)
             Button("About") {
+                // TODO: find a better place for this `assertion`
+                assert(self.aboutViewAction != nil, "aboutViewAction should be set after AboutCoordinator is initialized")
                 self.isAboutPresented = true
             }.sheet(isPresented: self.$isAboutPresented) {
                 self.aboutViewAction(self.$isAboutPresented)
-//                AboutView {
-//                    self.isAboutPresented = false
-//                }
             }
         }
     }
@@ -75,10 +73,13 @@ struct VideoPlayerRepresenter: UIViewRepresentable {
 // MARK: - Preview
 
 #if DEBUG
-/// For `SwiftUI` preview
-//struct VideoPlayerView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        return VideoPlayerView(document: UIDocument(fileURL: URL(string: "/Users/leo/Public")!)) { }
-//    }
-//}
+// For `SwiftUI` preview
+struct VideoPlayerView_Previews: PreviewProvider {
+    static var previews: some View {
+        let document = UIDocument(fileURL: URL(string: "/Users/leo/Public")!)
+        return VideoPlayerCoordinator(document: document) {
+            //self.dismiss(document: document)
+        }.environment
+    }
+}
 #endif
