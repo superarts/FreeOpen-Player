@@ -21,6 +21,7 @@ struct VideoPlayerView: View {
     @EnvironmentObject private var player: ObservableVideoPlayer
     /// `State` for `AboutView`
     @State private var isAboutPresented: Bool
+    @State private var playingProgress: Float
     /// `Representer` that contains `LegacyPlayerView`
     private let representer: VideoPlayerRepresenter
     /// Action when play/pause state is toggled
@@ -30,6 +31,7 @@ struct VideoPlayerView: View {
 
     init(player: AVPlayer, toggle: @escaping () -> Void, dismiss: @escaping () -> Void) {
         _isAboutPresented = State(initialValue: false)
+        _playingProgress = State(initialValue: 0.5)
         self.toggleAction = toggle
         self.dismissAction = dismiss
         representer = VideoPlayerRepresenter(player: player)
@@ -37,17 +39,41 @@ struct VideoPlayerView: View {
 
     var body: some View {
         VStack {
-            Text("Player")
-            representer
-            Button(self.player.status, action: toggleAction)
-            Button("Done", action: dismissAction)
-            Button("About") {
-                // TODO: find a better place for this `assertion`
-                assert(self.aboutViewAction != nil, "aboutViewAction should be set after AboutCoordinator is initialized")
-                self.isAboutPresented = true
-            }.sheet(isPresented: self.$isAboutPresented) {
-                self.aboutViewAction(self.$isAboutPresented)
+            ZStack {
+                HStack {
+                    Spacer()
+                        .frame(width: 10.0)
+                        .fixedSize()
+                    Button("About") {
+                        // TODO: find a better place for this `assertion`
+                        assert(self.aboutViewAction != nil, "aboutViewAction should be set after AboutCoordinator is initialized")
+                        self.isAboutPresented = true
+                    }.sheet(isPresented: self.$isAboutPresented) {
+                        self.aboutViewAction(self.$isAboutPresented)
+                    }
+                    Spacer()
+
+                    Button(action: dismissAction) {
+                        Image(systemName: "xmark")
+                    }
+//                    .padding()
+//                    .background(Color.yellow)
+//                    .cornerRadius(0)
+//                    .blur(radius: 0)
+//                    .clipShape(Circle())
+
+                    Spacer()
+                        .frame(width: 10.0)
+                        .fixedSize()
+                }
+                Text("Player")
             }
+            Divider()
+            representer
+            Divider()
+            Button(self.player.status, action: toggleAction)
+            Slider(value: $playingProgress)
+                .padding(.horizontal)
         }
     }
 }
@@ -76,7 +102,7 @@ struct VideoPlayerRepresenter: UIViewRepresentable {
 // For `SwiftUI` preview
 struct VideoPlayerView_Previews: PreviewProvider {
     static var previews: some View {
-        let document = UIDocument(fileURL: URL(string: "/Users/leo/Public")!)
+        let document = UIDocument(fileURL: URL(string: "file:///Users/leo/Public")!)
         return VideoPlayerCoordinator(document: document) {
             //self.dismiss(document: document)
         }.environment
