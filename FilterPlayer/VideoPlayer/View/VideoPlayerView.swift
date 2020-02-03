@@ -22,7 +22,6 @@ struct VideoPlayerView: View {
 
     /// `State` for `AboutView`
     @State private var isAboutPresented: Bool
-    //@State private var playingProgress: Float
 
     /// `State` for filter `Picker`
     @State private var filters = [
@@ -106,36 +105,12 @@ struct VideoPlayerView: View {
                     Text(self.filters[$0])
                 }
             }
-            /*
-            Picker(selection: .constant(1), label: Text("Filter")) {
-                Text("BlendWithAlphaMask")
-                Text("BlendWithMask")
-                Text("Bloom")
-                Text("ComicEffect")
-                Text("Convolution3X3")
-                Text("Convolution5X5")
-                Text("Convolution7X7")
-//                Text("Convolution9Horizontal")
-//                Text("Convolution9Vertical")
-//                Text("Crystallize")
-//                Text("DepthOfField")
-//                Text("Edges")
-//                Text("EdgeWork")
-//                Text("Gloom")
-//                Text("HeightFieldFromMask")
-//                Text("HexagonalPixellate")
-//                Text("HighlightShadowAdjust")
-//                Text("LineOverlay")
-//                Text("Pixellate")
-                Text("Pointillize")
-                Text("ShadedMaterial")
-                Text("SpotColor")
-            }
- */
             Divider()
             representer
             Divider()
-            Button(self.player.status, action: toggleAction)
+            Button(action: toggleAction) {
+                Image(systemName: self.player.status)
+            }
             Slider(value: self.$player.progress) { _ in
                 print("slider")
                 if self.player.isDragging {
@@ -143,14 +118,8 @@ struct VideoPlayerView: View {
                 }
                 self.player.isDragging = !self.player.isDragging
             }.padding(.horizontal)
-//                .gesture(self.isDragging == true ? drag : nil)
         }
     }
-//    let drag = DragGesture().onChanged { value in
-//        print("change")
-//    }.onEnded { value in
-//        print("end")
-//    }
 }
 
 // MARK: - Wrapper

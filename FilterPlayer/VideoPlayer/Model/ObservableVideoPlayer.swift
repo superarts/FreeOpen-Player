@@ -68,12 +68,12 @@ final class ObservableVideoPlayer: ObservableObject {
 
     func play() {
         player.play()
-        status = "Playing"
+        status = "play"
     }
 
     func pause() {
         player.pause()
-        status = "Paused"
+        status = "pause"
     }
 
     func toggle() {
