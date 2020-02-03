@@ -19,9 +19,41 @@ struct VideoPlayerView: View {
 
     /// `AVPlayer` for representer
     @EnvironmentObject private var player: ObservableVideoPlayer
+
     /// `State` for `AboutView`
     @State private var isAboutPresented: Bool
-    @State private var playingProgress: Float
+    //@State private var playingProgress: Float
+
+    /// `State` for filter `Picker`
+    @State private var filters = [
+        "BlendWithAlphaMask",
+        "BlendWithMask",
+        "Bloom",
+        "ComicEffect",
+        "Convolution3X3",
+        "Convolution5X5",
+        "Convolution7X7",
+        "Convolution9Horizontal",
+        "Convolution9Vertical",
+        "Crystallize",
+        "DepthOfField",
+        "Edges",
+        "EdgeWork",
+        "Gloom",
+        "HeightFieldFromMask",
+        "HexagonalPixellate",
+        "HighlightShadowAdjust",
+        "LineOverlay",
+        "Pixellate",
+        "Pointillize",
+        "ShadedMaterial",
+        "SpotColor",
+        "SpotLight",
+    ]
+    @State private var selection = 0
+
+    @State private var isDragging = false
+
     /// `Representer` that contains `LegacyPlayerView`
     private let representer: VideoPlayerRepresenter
     /// Action when play/pause state is toggled
@@ -31,7 +63,7 @@ struct VideoPlayerView: View {
 
     init(player: AVPlayer, toggle: @escaping () -> Void, dismiss: @escaping () -> Void) {
         _isAboutPresented = State(initialValue: false)
-        _playingProgress = State(initialValue: 0.5)
+        //_playingProgress = State(initialValue: 0.5)
         self.toggleAction = toggle
         self.dismissAction = dismiss
         representer = VideoPlayerRepresenter(player: player)
@@ -69,13 +101,56 @@ struct VideoPlayerView: View {
                 Text("Player")
             }
             Divider()
+            Picker(selection: $selection, label: Text("Filter")) {
+                ForEach(0 ..< filters.count) {
+                    Text(self.filters[$0])
+                }
+            }
+            /*
+            Picker(selection: .constant(1), label: Text("Filter")) {
+                Text("BlendWithAlphaMask")
+                Text("BlendWithMask")
+                Text("Bloom")
+                Text("ComicEffect")
+                Text("Convolution3X3")
+                Text("Convolution5X5")
+                Text("Convolution7X7")
+//                Text("Convolution9Horizontal")
+//                Text("Convolution9Vertical")
+//                Text("Crystallize")
+//                Text("DepthOfField")
+//                Text("Edges")
+//                Text("EdgeWork")
+//                Text("Gloom")
+//                Text("HeightFieldFromMask")
+//                Text("HexagonalPixellate")
+//                Text("HighlightShadowAdjust")
+//                Text("LineOverlay")
+//                Text("Pixellate")
+                Text("Pointillize")
+                Text("ShadedMaterial")
+                Text("SpotColor")
+            }
+ */
+            Divider()
             representer
             Divider()
             Button(self.player.status, action: toggleAction)
-            Slider(value: $playingProgress)
-                .padding(.horizontal)
+            Slider(value: self.$player.progress) { _ in
+                print("slider")
+                if self.player.isDragging {
+                    self.player.seek()
+                }
+                self.player.isDragging = !self.player.isDragging
+            }.padding(.horizontal)
+//                .gesture(self.isDragging == true ? drag : nil)
         }
     }
+//    let drag = DragGesture().onChanged { value in
+//        print("change")
+//    }.onEnded { value in
+//        print("end")
+//    }
 }
 
 // MARK: - Wrapper

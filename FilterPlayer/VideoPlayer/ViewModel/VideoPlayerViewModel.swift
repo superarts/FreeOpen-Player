@@ -21,7 +21,8 @@ final class VideoPlayerViewModel {
     }
 
     /// Action for play/pause button
-    lazy var toggleAction: () -> Void = {
+    lazy var toggleAction: () -> Void = { // [weak self] in
+        // guard let self = self else { return }
         print("PLAYER toggle \(self.player.player.timeControlStatus)")
         self.player.toggle()
     }
